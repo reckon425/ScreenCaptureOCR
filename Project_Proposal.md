@@ -126,4 +126,4 @@ ScreenCaptureOCR/
 
 ## 7. 项目 clone 地址
 
-（待创建 GitHub 仓库后补充）
+https://github.com/reckon425/ScreenCaptureOCR.git
