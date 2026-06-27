@@ -1,0 +1,28 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.sln.docstates
+packages/
+*.nupkg
+
+## VS
+.vs/
+*.csproj.user
+*.dbmdl
+*.jfm
+
+## Build
+Release/
+Debug/
+*.dll
+*.exe
+*.pdb
+*.xml
+
+## Other
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

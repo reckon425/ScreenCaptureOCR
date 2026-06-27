@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings>
+    <Setting Name="TargetLangIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="OcrApiKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">l3uV0Ez8cLGotpnfKr0WaXi5</Value>
+    </Setting>
+    <Setting Name="OcrSecretKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2LkmgiI4vQHRJEpYyDIvxPKpkTSGz9Jw</Value>
+    </Setting>
+    <Setting Name="Hotkey" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">113</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
