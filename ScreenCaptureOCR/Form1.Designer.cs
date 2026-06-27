@@ -161,7 +161,7 @@ namespace ScreenCaptureOCR
             this.btnOpenImage.Name = "btnOpenImage";
             this.btnOpenImage.Size = new System.Drawing.Size(153, 50);
             this.btnOpenImage.TabIndex = 10;
-            this.btnOpenImage.Text = "打开图片";
+            this.btnOpenImage.Text = "上传图片";
             this.btnOpenImage.UseVisualStyleBackColor = true;
             this.btnOpenImage.Click += new System.EventHandler(this.btnOpenImage_Click);
             // 
@@ -272,7 +272,7 @@ namespace ScreenCaptureOCR
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(143, 44);
             this.button1.TabIndex = 16;
-            this.button1.Text = "打开文本";
+            this.button1.Text = "上传文本";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
