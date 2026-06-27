@@ -109,11 +109,30 @@ namespace ScreenCaptureOCR
         {
             using (var ms = new System.IO.MemoryStream())
             {
-                // 压缩图片，限制大小在4MB以内（百度API限制）
-                var qualityImage = CompressImage(image, 1024);
-                qualityImage.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                using (var qualityImage = CompressImage(image, 1024))
+                {
+                    var encoder = System.Drawing.Imaging.Encoder.Quality;
+                    var parameters = new System.Drawing.Imaging.EncoderParameters(1);
+                    parameters.Param[0] = new System.Drawing.Imaging.EncoderParameter(encoder, 75L);
+                    var jpegCodec = GetJpegCodec();
+
+                    if (jpegCodec != null)
+                        qualityImage.Save(ms, jpegCodec, parameters);
+                    else
+                        qualityImage.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
                 return Convert.ToBase64String(ms.ToArray());
             }
+        }
+
+        private System.Drawing.Imaging.ImageCodecInfo GetJpegCodec()
+        {
+            foreach (var codec in System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders())
+            {
+                if (codec.FormatID == System.Drawing.Imaging.ImageFormat.Jpeg.Guid)
+                    return codec;
+            }
+            return null;
         }
 
         private Bitmap CompressImage(Bitmap source, int maxDimension)

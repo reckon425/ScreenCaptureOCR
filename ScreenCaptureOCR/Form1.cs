@@ -179,10 +179,7 @@ namespace ScreenCaptureOCR
                 case ".log":
                 case ".ini":
                 case ".csv":
-                    string utf8Text = File.ReadAllText(path, Encoding.UTF8);
-                    if (!string.IsNullOrWhiteSpace(utf8Text))
-                        return utf8Text;
-                    return File.ReadAllText(path, Encoding.Default);
+                    return ReadTextWithEncodingDetection(path);
 
                 case ".docx":
                     return ReadDocxText(path);
@@ -191,8 +188,44 @@ namespace ScreenCaptureOCR
                     return ReadPdfText(path);
 
                 default:
-                    return File.ReadAllText(path, Encoding.UTF8);
+                    return ReadTextWithEncodingDetection(path);
             }
+        }
+
+        private string ReadTextWithEncodingDetection(string path)
+        {
+            byte[] bytes = File.ReadAllBytes(path);
+            if (bytes.Length == 0) return "";
+
+            // 检测 BOM 并选择对应编码
+            if (bytes.Length >= 3 && bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
+                return Encoding.UTF8.GetString(bytes, 3, bytes.Length - 3);
+            if (bytes.Length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xFE)
+                return Encoding.Unicode.GetString(bytes, 2, bytes.Length - 2);
+            if (bytes.Length >= 2 && bytes[0] == 0xFE && bytes[1] == 0xFF)
+                return Encoding.BigEndianUnicode.GetString(bytes, 2, bytes.Length - 2);
+
+            // 无 BOM：先试 UTF-8，如果解码结果不含替换字符则认为是有效 UTF-8
+            string utf8Text = Encoding.UTF8.GetString(bytes);
+            if (!utf8Text.Contains("�"))
+                return utf8Text;
+
+            // 再试系统默认编码（中文 Windows 下为 GBK/GB2312）
+            string defaultText = Encoding.Default.GetString(bytes);
+            if (!string.IsNullOrWhiteSpace(defaultText))
+                return defaultText;
+
+            // 最后尝试 GB2312 显式指定
+            try
+            {
+                Encoding gb2312 = Encoding.GetEncoding("GB2312");
+                string gbText = gb2312.GetString(bytes);
+                if (!string.IsNullOrWhiteSpace(gbText))
+                    return gbText;
+            }
+            catch { }
+
+            return utf8Text;
         }
 
         private string ReadDocxText(string path)
